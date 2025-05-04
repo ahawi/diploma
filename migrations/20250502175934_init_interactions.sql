@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS interactions (
     pet_id      BIGINT      NOT NULL,
     type        INT         NOT NULL,
     weight      FLOAT       NOT NULL,
-    created_at  TIMESTAMP   NOT NULL    DEFAULT NOW(),
+    created_at  TIMESTAMP   NOT NULL    DEFAULT NOW()
 
 );
 -- +goose StatementEnd

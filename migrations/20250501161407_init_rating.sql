@@ -3,8 +3,7 @@
 CREATE TABLE IF NOT EXISTS rating (
     user_id BIGINT  NOT NULL,
     pet_id  BIGINT  NOT NULL,
-    score   FLOAT   NOT NULL,
-
+    score   FLOAT   NOT NULL
 );
 -- +goose StatementEnd
 

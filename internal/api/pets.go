@@ -11,6 +11,7 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"github.com/ahawi/diploma/internal/entity"
+	"github.com/ahawi/diploma/internal/repository"
 )
 
 func (a *API) GetPetsBatchHandler(w http.ResponseWriter, r *http.Request) {
@@ -118,6 +119,16 @@ func (a *API) GetPetByIDHandler(w http.ResponseWriter, r *http.Request) {
 	pet, err := a.petService.PetByID(ctx, petID)
 	if err != nil {
 		log.Printf("petService.PetByID: %v", err)
+	}
+	if err != nil && errors.Is(err, entity.ErrBadRequest) {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if err != nil && errors.Is(err, repository.ErrNotFound) {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

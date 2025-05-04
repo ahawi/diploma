@@ -18,5 +18,6 @@ CREATE TABLE IF NOT EXISTS dogs (
 -- +goose StatementEnd
 
 -- +goose Down
+-- +goose StatementBegin
 DROP TABLE IF EXISTS dogs;
 -- +goose StatementEnd

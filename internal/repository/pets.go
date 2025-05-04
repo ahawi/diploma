@@ -26,6 +26,7 @@ func NewPetRepository(conn *pgxpool.Pool) *PetRepository {
 
 func (r *PetRepository) PetsBatch(ctx context.Context, lastID int64, offset int64) ([]*entity.PetShort, error) {
 	query := r.builder.Select("id, name, breed, gender, age").
+		From("dogs").
 		Where(squirrel.GtOrEq{"id": lastID}).
 		OrderBy("id ASC").
 		Limit(uint64(offset)).
@@ -47,6 +48,7 @@ func (r *PetRepository) PetsBatch(ctx context.Context, lastID int64, offset int6
 
 func (r *PetRepository) PetByID(ctx context.Context, id int64) (*entity.Pet, error) {
 	query := r.builder.Select("*").
+		From("dogs").
 		Where(squirrel.Eq{"id": id})
 
 	sql, args, err := query.ToSql()
@@ -68,6 +70,7 @@ func (r *PetRepository) PetByID(ctx context.Context, id int64) (*entity.Pet, err
 
 func (r *PetRepository) PetsByIDs(ctx context.Context, petIDs []int64) ([]*entity.Pet, error) {
 	query := r.builder.Select("*").
+		From("dogs").
 		Where(squirrel.Eq{"id": petIDs})
 
 	sql, args, err := query.ToSql()
@@ -85,7 +88,7 @@ func (r *PetRepository) PetsByIDs(ctx context.Context, petIDs []int64) ([]*entit
 }
 
 func (r *PetRepository) AllPets(ctx context.Context) ([]*entity.Pet, error) {
-	query := r.builder.Select("*")
+	query := r.builder.Select("*").From("dogs")
 
 	sql, args, err := query.ToSql()
 	if err != nil {

@@ -12,10 +12,10 @@ run-server: build
 
 
 docker-up: docker-compose.yaml
-	docker-compose up -d
+	docker compose up -d
 
 docker-down: docker-compose.yaml
-	docker-compose down
+	docker compose down
 
 
 deps:

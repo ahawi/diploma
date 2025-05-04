@@ -21,6 +21,7 @@ func main() {
 	defer cancel()
 
 	cfg := config.MustLoad()
+	log.Printf("config: %v", cfg)
 
 	conn, err := repository.NewConnection(ctx, cfg.PostgresConfig)
 	if err != nil {
@@ -39,7 +40,7 @@ func main() {
 		petRepository,
 	)
 
-	api := api.NewAPI(userService, petsService, recommendationService, cfg.TimeoutAPI)
+	api := api.NewAPI(userService, petsService, recommendationService, cfg.ServerConfig.TimeoutAPI)
 
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)

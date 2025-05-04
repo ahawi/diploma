@@ -2,7 +2,7 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS users (
     user_id BIGINT  NOT NULL,
-    name    TEXT    NOT NULL,
+    name    TEXT    NOT NULL
 );
 -- +goose StatementEnd
 
