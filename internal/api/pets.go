@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"log"
 	"net/http"
 	"strconv"
@@ -35,7 +36,22 @@ func (a *API) GetPetsBatchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pets, err := a.petService.PetsBatch(ctx, lastID, offset)
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		log.Printf("failed to read body: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	var object entity.PetFilter
+	err = json.Unmarshal(body, &object)
+	if err != nil {
+		log.Printf("failed to parse pet filter: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	pets, err := a.petService.PetsBatch(ctx, lastID, offset, object)
 	if err != nil {
 		log.Printf("petService.PetsBatch: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -48,7 +64,7 @@ func (a *API) GetPetsBatchHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	
+
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -136,6 +152,37 @@ func (a *API) GetPetByIDHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.NewEncoder(w).Encode(pet)
 	if err != nil {
 		log.Printf("failed to write response: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func (a *API) PostAddPetHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		log.Printf("failed to read body: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	var object entity.Pet
+	err = json.Unmarshal(body, &object)
+	if err != nil {
+		log.Printf("failed to parse interaction: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(r.Context(), a.timeout)
+	defer cancel()
+
+	err = a.petService.AddPet(ctx, &object)
+	if err != nil {
+		log.Printf("userService.AddInteraction: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

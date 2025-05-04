@@ -72,13 +72,13 @@ func (r *UserRepository) GetInteraction(ctx context.Context, userID, petID int64
 	return res[0], nil
 }
 
-func (r *UserRepository) GetUser(ctx context.Context, userID int64) (*entity.User, error) {
+func (r *UserRepository) GetUser(ctx context.Context, userID int64) (*entity.UserWithInteractions, error) {
 	interactions, err := r.GetInteractionsForUser(ctx, userID)
 	if err != nil {
 		return nil, fmt.Errorf("get interactions for user: %w", err)
 	}
 
-	return &entity.User{
+	return &entity.UserWithInteractions{
 		ID:           userID,
 		Interactions: interactions,
 	}, nil
@@ -102,10 +102,6 @@ func (r *UserRepository) GetInteractionsForUser(ctx context.Context, userID int6
 	return res, nil
 }
 
-func (r *UserRepository) GetSimilarUsers(ctx context.Context, userID int64, threshold float64) ([]*entity.User, error) {
-	return nil, nil
-}
-
 func (r *UserRepository) AddInteraction(ctx context.Context, interaction *entity.Interaction) error {
 	query := r.builder.Insert("interactions").
 		Columns("user_id", "pet_id", "type", "weight").
@@ -122,4 +118,66 @@ func (r *UserRepository) AddInteraction(ctx context.Context, interaction *entity
 	}
 
 	return nil
+}
+
+func (r *UserRepository) AddUser(ctx context.Context, name string) error {
+	query := r.builder.Insert("users").
+		Columns("name").
+		Values(name)
+
+	sql, args, err := query.ToSql()
+	if err != nil {
+		return fmt.Errorf("get sql query: %w", err)
+	}
+
+	_, err = r.conn.Exec(ctx, sql, args...)
+	if err != nil {
+		return fmt.Errorf("save user: %w", err)
+	}
+
+	return nil
+}
+
+func (r *UserRepository) GetAllUsers(ctx context.Context) ([]*entity.User, error) {
+	query := r.builder.Select("*").
+		From("users")
+
+	sql, args, err := query.ToSql()
+	if err != nil {
+		return nil, fmt.Errorf("get sql query: %w", err)
+	}
+
+	var res []*entity.User
+	err = pgxscan.Select(ctx, r.conn, &res, sql, args...)
+	if err != nil {
+		return nil, fmt.Errorf("get from db: %w", err)
+	}
+
+	return res, nil
+}
+
+func (r *UserRepository) GetAllUsersWithInteractions(ctx context.Context) ([]*entity.UserWithInteractions, error) {
+	users, err := r.GetAllUsers(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("get users from db: %v", err)
+	}
+
+	userIDs := make([]int64, len(users))
+	for i, u := range users {
+		userIDs[i] = u.ID
+	}
+
+	usersWithInteractions := make([]*entity.UserWithInteractions, len(users))
+	for i, id := range userIDs {
+		ints, err := r.GetInteractionsForUser(ctx, id)
+		if err != nil {
+			return nil, fmt.Errorf("get interactions for userID: %d, err: %w", id, err)
+		}
+		usersWithInteractions[i] = &entity.UserWithInteractions{
+			ID:           id,
+			Interactions: ints,
+		}
+	}
+
+	return usersWithInteractions, nil
 }

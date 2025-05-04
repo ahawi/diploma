@@ -24,11 +24,28 @@ func NewPetRepository(conn *pgxpool.Pool) *PetRepository {
 	}
 }
 
-func (r *PetRepository) PetsBatch(ctx context.Context, lastID int64, offset int64) ([]*entity.PetShort, error) {
+func (r *PetRepository) PetsBatch(ctx context.Context, lastID int64, offset int64, filter entity.PetFilter) ([]*entity.PetShort, error) {
 	query := r.builder.Select("id, name, breed, gender, age").
 		From("dogs").
-		Where(squirrel.GtOrEq{"id": lastID}).
-		OrderBy("id ASC").
+		Where(squirrel.GtOrEq{"id": lastID})
+
+	if filter.Age != nil {
+		query = query.Where(squirrel.GtOrEq{"age": *filter.Age})
+	}
+	if filter.Gender != nil {
+		query = query.Where(squirrel.Eq{"gender": *filter.Gender})
+	}
+	if filter.Breed != nil {
+		query = query.Where(squirrel.Eq{"breed": *filter.Breed})
+	}
+	if filter.Size != nil {
+		query = query.Where(squirrel.GtOrEq{"size": *filter.Size})
+	}
+	if filter.Weight != nil {
+		query = query.Where(squirrel.GtOrEq{"weight": *filter.Weight})
+	}
+
+	query = query.OrderBy("id ASC").
 		Limit(uint64(offset)).
 		Offset(uint64(offset))
 
@@ -102,4 +119,22 @@ func (r *PetRepository) AllPets(ctx context.Context) ([]*entity.Pet, error) {
 	}
 
 	return result, nil
+}
+
+func (r *PetRepository) AddPet(ctx context.Context, pet *entity.Pet) error {
+	query := r.builder.Insert("dogs").
+		Columns("name, gender, breed, wool_length, color, personality, size, age, weight, health, experience").
+		Values(pet.Name, pet.Gender, pet.Breed, pet.WoolLength, pet.Color, pet.Personality, pet.Size, pet.Age, pet.Weight, pet.Health, pet.Experience)
+
+	sql, args, err := query.ToSql()
+	if err != nil {
+		return fmt.Errorf("get sql query: %w", err)
+	}
+
+	_, err = r.conn.Exec(ctx, sql, args...)
+	if err != nil {
+		return fmt.Errorf("save pet: %w", err)
+	}
+
+	return nil
 }

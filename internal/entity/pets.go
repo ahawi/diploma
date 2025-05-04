@@ -87,3 +87,11 @@ func (pf PetsFeatures) IDs() []int64 {
 	}
 	return res
 }
+
+type PetFilter struct {
+	Gender *string
+	Breed  *string
+	Size   *float64
+	Weight *float64
+	Age    *float64
+}

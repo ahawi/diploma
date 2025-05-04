@@ -14,7 +14,7 @@ import (
 
 type userRepository interface {
 	GetInteractionsForUser(ctx context.Context, userID int64) ([]*entity.Interaction, error)
-	GetSimilarUsers(ctx context.Context, userID int64, threshold float64) ([]*entity.User, error)
+	GetAllUsersWithInteractions(ctx context.Context) ([]*entity.UserWithInteractions, error)
 }
 
 type petRepository interface {
@@ -132,7 +132,7 @@ func (rs *Service) contentBasedRecommendations(ctx context.Context, interactions
 }
 
 func (rs *Service) collaborativeRecommendations(ctx context.Context, userID int64, interactions []*entity.Interaction) ([]int64, error) {
-	similarUsers, err := rs.userRepository.GetSimilarUsers(ctx, userID, 0.5)
+	similarUsers, err := rs.getSimilarUsers(ctx, userID, 0.5)
 	if err != nil {
 		return nil, fmt.Errorf("userRepository.GetSimilarUsers: %w", err)
 	}
@@ -161,6 +161,62 @@ func (rs *Service) collaborativeRecommendations(ctx context.Context, userID int6
 	})
 
 	return petIDs, nil
+}
+
+func (rs *Service) getSimilarUsers(ctx context.Context, userID int64, threshold float64) ([]*entity.UserWithInteractions, error) {
+	users, err := rs.userRepository.GetAllUsersWithInteractions(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("userRepository.GetAllUsersWithInteractions: %w", err)
+	}
+
+	var targetUser *entity.UserWithInteractions
+	for _, u := range users {
+		if u.ID == userID {
+			targetUser = u
+			break
+		}
+	}
+	if targetUser == nil {
+		return nil, fmt.Errorf("user not found")
+	}
+
+	targetVector := createUserVector(targetUser)
+
+	var similarUsers []*entity.UserWithInteractions
+	for _, user := range users {
+		if user.ID == userID {
+			continue
+		}
+
+		userVector := createUserVector(user)
+		similarity := cosineSimilarity(targetVector, userVector)
+
+		if similarity >= threshold {
+			similarUsers = append(similarUsers, user)
+		}
+	}
+
+	sort.Slice(similarUsers, func(i, j int) bool {
+		return calculateSimilarity(targetUser, similarUsers[i]) >
+			calculateSimilarity(targetUser, similarUsers[j])
+	})
+
+	return similarUsers, nil
+}
+
+func calculateSimilarity(userA, userB *entity.UserWithInteractions) float64 {
+	vectorA := createUserVector(userA)
+	vectorB := createUserVector(userB)
+
+	return cosineSimilarity(vectorA, vectorB)
+}
+
+func createUserVector(u *entity.UserWithInteractions) map[int64]float64 {
+	vector := make(map[int64]float64)
+	for _, interaction := range u.Interactions {
+		vector[interaction.PetID] = interaction.Weight * entity.InteractionWeight(interaction.Type)
+	}
+	return vector
 }
 
 func (rs *Service) mergeRecommendations(a, b []int64) []int64 {
@@ -207,7 +263,7 @@ func (rs *Service) paginateResults(ctx context.Context, petIDs []int64, page, pa
 	return entity.Pets(res).ToShort(), nil
 }
 
-func cosineSimilarity(a, b map[string]float64) float64 {
+func cosineSimilarity[K comparable](a, b map[K]float64) float64 {
 	var (
 		dotProduct float64 = 0
 		magnitudeA float64 = 0

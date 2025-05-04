@@ -3,6 +3,11 @@ package entity
 import "time"
 
 type User struct {
+	ID   int64 `db:"id"`
+	Name int64 `db:"name"`
+}
+
+type UserWithInteractions struct {
 	ID           int64
 	Interactions []*Interaction
 }
@@ -26,7 +31,7 @@ const (
 func InteractionWeight(t InteractionType) float64 {
 	switch t {
 	case View:
-		return 0.3
+		return 0.2
 	case Purchase:
 		return 1.0
 	case Rating:

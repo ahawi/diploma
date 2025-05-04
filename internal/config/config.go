@@ -23,10 +23,10 @@ type PostgresConfig struct {
 }
 
 type ServerConfig struct {
-	Port          string  `yaml:"port"`
-	CollabWeight  float64 `yaml:"collab_weight"`
-	ContentWeight float64 `yaml:"content_weight"`
-	TimeoutAPI     time.Duration  `yaml:"timeout_api"`
+	Port          string        `yaml:"port"`
+	CollabWeight  float64       `yaml:"collab_weight"`
+	ContentWeight float64       `yaml:"content_weight"`
+	TimeoutAPI    time.Duration `yaml:"timeout_api"`
 }
 
 func MustLoad() Config {

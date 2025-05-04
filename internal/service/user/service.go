@@ -10,6 +10,7 @@ import (
 type userRepository interface {
 	AddForm(ctx context.Context, userID int64, form *entity.Form) error
 	AddInteraction(ctx context.Context, interaction *entity.Interaction) error
+	AddUser(ctx context.Context, name string) error
 }
 
 type Service struct {
@@ -45,6 +46,19 @@ func (s *Service) AddInteraction(ctx context.Context, interaction *entity.Intera
 	err := s.userRepository.AddInteraction(ctx, interaction)
 	if err != nil {
 		return fmt.Errorf("userRepository.AddInteraction: %w", err)
+	}
+
+	return nil
+}
+
+func (s *Service) RegisterUser(ctx context.Context, name string) error {
+	if len(name) == 0 {
+		return fmt.Errorf("%w: invalid name", entity.ErrBadRequest)
+	}
+
+	err := s.userRepository.AddUser(ctx, name)
+	if err != nil {
+		return fmt.Errorf("userRepository.AddUser: %w", err)
 	}
 
 	return nil

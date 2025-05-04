@@ -10,11 +10,13 @@ import (
 type userService interface {
 	AddForm(ctx context.Context, userID int64, form *entity.Form) error
 	AddInteraction(ctx context.Context, interaction *entity.Interaction) error
+	RegisterUser(ctx context.Context, name string) error
 }
 
 type petService interface {
-	PetsBatch(ctx context.Context, lastID int64, offset int64) ([]*entity.PetShort, error)
+	PetsBatch(ctx context.Context, lastID int64, offset int64, filter entity.PetFilter) ([]*entity.PetShort, error)
 	PetByID(ctx context.Context, id int64) (*entity.Pet, error)
+	AddPet(ctx context.Context, pet *entity.Pet) error
 }
 
 type recommendationService interface {
