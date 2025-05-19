@@ -1,0 +1,41 @@
+@use '../helpers/' as *;
+
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: rem(120);
+  position: relative;
+
+  @include tablet {
+    flex-direction: column-reverse;
+    row-gap: rem(30);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    background-image: url('../../images/stars-about.png');
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: 60px 75px;
+    z-index: -1;
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    row-gap: rem(70);
+    max-width: rem(430);
+
+    @include tablet {
+      row-gap: rem(30);
+      max-width: rem(600);
+    }
+  }
+
+  &__image {
+    max-width: 80%;
+  }
+}

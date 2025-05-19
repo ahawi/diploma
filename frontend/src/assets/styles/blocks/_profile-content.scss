@@ -1,0 +1,130 @@
+@use '../helpers/' as *;
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: rem(45);
+
+  &__title {
+    font-weight: 400;
+    font-size: rem(26);
+
+    @include laptop {
+      font-size: rem(24);
+    }
+  }
+
+  &__privacy-info {
+    max-width: rem(848);
+  }
+
+  &__privacy-info,
+  &__email,
+  &__delete {
+    background-color: var(--color-light);
+    border-radius: rem(9);
+    padding: rem(30) rem(40);
+  }
+
+  &__delete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(40);
+
+    @include mobile {
+      justify-content: center;
+    }
+
+    .profile-content__title {
+      padding-bottom: 0;
+      margin-bottom: 0;
+
+      @include mobile {
+        display: none;
+      }
+    }
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: rem(90);
+    margin-top: rem(40);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 112%;
+      height: rem(2);
+      background-color: var(--color-gray-2);
+      top: -15%;
+      left: -6%;
+
+      @include laptop {
+        content: '';
+        position: absolute;
+        width: 116%;
+        height: 0.125rem;
+        background-color: var(--color-gray-2);
+        top: -8%;
+        left: -8%;
+      }
+    }
+
+    @include laptop {
+      flex-direction: column;
+      gap: rem(26);
+    }
+  }
+
+  &__email {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 102%;
+      height: rem(2);
+      background-color: var(--color-gray-2);
+      top: 40%;
+      left: -1%;
+    }
+  }
+
+  &__title {
+    padding-bottom: rem(30);
+    margin-bottom: rem(30);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    width: rem(403);
+    border: rem(1) solid #d9d9d9d9;
+    border-radius: rem(9);
+    height: rem(47);
+    margin-bottom: rem(20);
+    padding-left: rem(20);
+
+    @include mobile {
+      width: rem(240);
+    }
+  }
+
+  &__button {
+    margin-inline: auto;
+    margin-block: rem(42);
+    max-width: 100%;
+
+    @include laptop {
+      margin-bottom: rem(26);
+    }
+  }
+}

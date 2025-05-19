@@ -1,0 +1,26 @@
+@use '../helpers/' as *;
+
+.findhome {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__title {
+    max-width: rem(350);
+    text-align: center;
+    margin-top: rem(80);
+    margin-block: rem(58);
+    font-weight: 400;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    gap: rem(55);
+
+    @include tablet {
+      flex-direction: column;
+    }
+  }
+}

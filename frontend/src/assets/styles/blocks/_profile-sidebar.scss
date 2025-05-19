@@ -1,0 +1,68 @@
+@use '../helpers/' as *;
+
+.profile-sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-light);
+  border-radius: rem(9);
+  padding: rem(20) rem(20) rem(50);
+  max-width: rem(272);
+
+  @include tablet {
+    display: none;
+  }
+
+  &__main-title {
+    margin-bottom: rem(30);
+    font-weight: 400;
+    background-color: #fbe8da;
+    padding: rem(22) rem(25);
+    border-radius: rem(9);
+    font-size: rem(26);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: rem(62);
+      height: rem(62);
+      top: 24%;
+      left: 66%;
+
+      background-image: url('../../images/paw.png');
+    }
+  }
+
+  &__title {
+    font-weight: 400;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    max-width: rem(230);
+    gap: rem(30);
+    padding-inline: rem(18);
+  }
+
+  &__item {
+    &:nth-child(4) {
+      border: rem(1) solid var(--color-accent);
+      border-radius: rem(9);
+      padding-inline: rem(22);
+      margin-inline: rem(-25);
+      margin-block: rem(-10);
+      padding-block: rem(10);
+    }
+  }
+
+  &__subtitle {
+    color: #8b8b8b;
+    font-size: rem(16);
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+  }
+}

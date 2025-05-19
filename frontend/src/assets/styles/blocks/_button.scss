@@ -1,0 +1,51 @@
+@use '../helpers/' as *;
+
+.button {
+  background-color: var(--color-accent);
+  max-width: rem(242);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius);
+  padding: rem(15) rem(45);
+  border: rem(2) solid transparent;
+  flex-wrap: nowrap;
+
+  @include hover {
+    color: var(--color-dark-1);
+    background-color: transparent;
+    border: rem(2) solid var(--color-accent);
+  }
+
+  &--transparent {
+    background-color: transparent;
+    border: rem(2) solid var(--color-accent);
+    padding-block: rem(10);
+
+    @include hover {
+      background-color: var(--color-accent);
+    }
+  }
+
+  &--header {
+    @include hover {
+      background-color: var(--color-light);
+      border-color: var(--color-light);
+    }
+  }
+
+  &--arrow {
+    padding: rem(15) rem(18);
+    border-radius: 50%;
+    width: rem(52);
+    height: rem(52);
+    background-color: transparent;
+    border: rem(2) solid var(--color-accent);
+    transition-duration: var(--transition-duration);
+
+    @include hover {
+      background-color: var(--color-accent);
+      transition-duration: var(--transition-duration);
+    }
+  }
+}

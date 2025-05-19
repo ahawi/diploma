@@ -1,0 +1,27 @@
+@use 'normalize';
+@use 'fonts';
+@use 'variables';
+@use 'utils';
+@use 'globals';
+
+@use 'blocks/header';
+@use 'blocks/section';
+@use 'blocks/hero';
+@use 'blocks/button';
+@use 'blocks/about';
+@use 'blocks/howitworks';
+@use 'blocks/card';
+@use 'blocks/usability';
+@use 'blocks/animals';
+@use 'blocks/slide';
+@use 'blocks/footer';
+@use 'blocks/contacts';
+@use 'blocks/slick';
+@use 'blocks/findhome';
+@use 'blocks/choice';
+@use 'blocks/sidebar';
+@use 'blocks/popup';
+@use 'blocks/profile';
+@use 'blocks/profile-content';
+@use 'blocks/profile-sidebar';
+@use 'blocks/recomendation';

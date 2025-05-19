@@ -1,0 +1,35 @@
+@use '../helpers/' as *;
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  row-gap: rem(50);
+
+  @include mobile {
+    gap: rem(20);
+  }
+
+  &__title {
+    color: var(--color-gray-1);
+    font-weight: 400;
+  }
+
+  &__email,
+  &__phone {
+    color: var(--color-accent);
+    display: flex;
+    column-gap: rem(20);
+  }
+
+  &__email a,
+  &__phone a {
+    text-decoration: none;
+    font-weight: 400;
+    font-size: rem(20);
+    letter-spacing: 6%;
+
+    @include mobile {
+      font-size: rem(14);
+    }
+  }
+}

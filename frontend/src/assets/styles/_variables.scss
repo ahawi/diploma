@@ -1,0 +1,24 @@
+@use 'helpers' as *;
+
+:root {
+  --color-light: #ffffff;
+
+  --color-dark-1: #545454;
+  --color-dark-2: #4c4c4c;
+
+  --color-gray-1: #fafafa;
+  --color-gray-2: #f6f6f6;
+
+  --color-accent: #f1cdb3;
+
+  --border: #{rem(2)} solid var(--color-accent);
+
+  --border-radius: #{rem(100)};
+
+  --font-family: 'Lora', sans-serif;
+
+  --container-width: #{rem(1200)};
+  --container-padding-x: #{rem(20)};
+
+  --transition-duration: 0.2s;
+}

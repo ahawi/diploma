@@ -1,0 +1,36 @@
+@use '../helpers/' as *;
+
+.animals {
+  background-image: url('../../images/decor-animals.png');
+  background-repeat: no-repeat;
+  background-position: 103px 124px;
+
+  &__title {
+    max-width: rem(400);
+    text-align: center;
+    margin: auto;
+    // margin-bottom: rem(60);
+  }
+
+  &__group {
+    display: flex;
+    justify-content: space-between;
+    column-gap: rem(90);
+    align-items: center;
+  }
+
+  &__more {
+    margin: 0 auto;
+    // margin-top: rem(60);
+
+    @include tablet {
+      margin-top: rem(60);
+    }
+  }
+
+  &__arrow {
+    border: rem(2) solid var(--color-accent);
+    padding: rem(23) rem(19);
+    border-radius: 50%;
+  }
+}

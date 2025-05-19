@@ -1,0 +1,125 @@
+@use '../helpers/' as *;
+
+.slick-slide {
+  display: flex;
+}
+
+.slick-slide {
+  margin: 0 60px;
+
+  @include mobile {
+    margin: 0 110px;
+  }
+
+  @include mobile-s {
+    margin: 0 20px;
+  }
+}
+
+.slick-list {
+  margin: 0 -60px;
+
+  @include mobile {
+    margin: 0 -110px;
+  }
+
+  @include mobile-s {
+    margin: 0 -20px;
+  }
+}
+
+.slick-track {
+  margin-block: rem(50);
+
+  @include laptop {
+    margin-bottom: rem(90);
+  }
+
+  @include tablet {
+    margin-bottom: rem(40);
+  }
+}
+
+.slick-dots {
+  bottom: -35px !important;
+}
+
+.slider-container {
+  position: relative;
+
+  @include laptop {
+    margin: 0 auto;
+  }
+}
+
+.slick-initialized .slick-slide {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+/* Полный сброс стандартных стилей Slick */
+.slick-prev,
+.slick-next {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 40px; /* Ваш размер */
+  height: 40px; /* Ваш размер */
+  padding: 0;
+  transform: translate(0, -50%);
+  cursor: pointer;
+  color: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
+  z-index: 1;
+}
+
+/* Убираем стандартные иконки */
+.slick-prev:before,
+.slick-next:before {
+  content: none !important;
+}
+
+.slick-prev {
+  left: -55px !important; /* Позиционирование */
+  background: url('../../images/arrow-left.png') no-repeat center !important;
+  z-index: 100;
+
+  @include laptop {
+    left: 33.5% !important;
+  }
+}
+
+.slick-next {
+  right: -55px !important; /* Позиционирование */
+  background: url('../../images/arrow-right.png') no-repeat center !important;
+  z-index: 100;
+
+  @include laptop {
+    left: 62% !important;
+  }
+}
+
+.slick-next,
+.slick-prev {
+  border: 2px solid var(--color-accent) !important;
+  padding: 25px !important;
+
+  @include laptop {
+    top: 105% !important;
+  }
+
+  @include tablet {
+    display: none !important;
+  }
+}
+
+/* Ховер-эффекты */
+.slick-prev:hover,
+.slick-next:hover {
+  background-color: var(--color-accent) !important;
+}

@@ -1,0 +1,62 @@
+@use '../helpers/' as *;
+
+.sidebar {
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(20);
+    background-color: var(--color-gray-1);
+    padding: rem(34) rem(20);
+    border-radius: rem(9);
+    width: rem(272);
+    box-shadow: 0px 4px 10px -4px rgba(34, 60, 80, 0.2);
+
+    @include laptop {
+      max-width: rem(250);
+    }
+
+    @include tablet {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 100%;
+      max-width: 100%;
+    }
+
+    @include mobile-s {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: rem(10);
+  }
+
+  &__title {
+    text-align: center;
+    font-style: italic;
+  }
+
+  &__select {
+    appearance: none;
+    border: rem(2) solid var(--color-accent);
+    border-radius: rem(100);
+    padding: rem(10) rem(18);
+    outline: none;
+    color: #767676;
+    background-color: transparent;
+    background-image: url('../../images/select-arrow.svg');
+    background-repeat: no-repeat;
+    background-position: right rem(18) center;
+    padding-right: rem(40);
+  }
+
+  .slide__name {
+    @include laptop {
+      font-size: rem(26);
+    }
+  }
+}

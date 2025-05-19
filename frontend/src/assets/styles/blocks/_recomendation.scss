@@ -1,0 +1,30 @@
+@use '../helpers/' as *;
+
+.recomendation {
+  background-color: var(--color-light);
+  display: flex;
+  flex-direction: column;
+  padding: rem(40);
+  border-radius: rem(9);
+
+  &__title {
+    font-weight: 400;
+    font-size: rem(24);
+    margin-bottom: rem(20);
+  }
+
+  &__question {
+    font-size: rem(30);
+    margin-bottom: rem(20);
+  }
+
+  &__test {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(30);
+
+    &-answer {
+      max-width: 100%;
+    }
+  }
+}

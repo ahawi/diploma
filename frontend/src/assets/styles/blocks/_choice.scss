@@ -1,0 +1,71 @@
+@use '../helpers/' as *;
+
+.choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__main {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: rem(40);
+    margin-bottom: rem(70);
+
+    @include tablet {
+      grid-template-columns: repeat(2, auto);
+    }
+
+    @include mobile-s {
+      grid-template-columns: repeat(1, auto);
+    }
+  }
+
+  &__slide {
+    position: relative;
+  }
+
+  &__favorite {
+    background-color: var(--color-light);
+    width: rem(48);
+    height: rem(48);
+    position: absolute;
+    top: rem(10);
+    right: rem(10);
+    border-radius: 50%;
+    color: #f1b3b3;
+    cursor: pointer;
+    border: none;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: rem(20);
+
+    @include mobile-s {
+      gap: rem(5);
+    }
+  }
+
+  &__button {
+    padding: rem(14) rem(13);
+    background-color: transparent;
+    border: rem(2) solid var(--color-accent);
+    border-radius: 50%;
+    width: rem(52);
+    height: rem(52);
+    line-height: 1;
+
+    &:nth-child(3) {
+      background-color: var(--color-accent);
+    }
+  }
+}
+
+.choice__icon {
+  fill: #ccc; // серый по умолчанию
+  transition: fill;
+
+  &--active {
+    fill: #f1b3b3; // розовый
+  }
+}

@@ -1,0 +1,82 @@
+@use 'helpers' as *;
+
+html {
+  overflow-x: hidden;
+  &.is-lock {
+    overflow: hidden;
+  }
+}
+
+body {
+  @include fluid-text(18, 14);
+
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family);
+  color: var(--color-dark-1);
+  background-color: var(--color-light);
+  font-weight: 400;
+}
+
+main {
+  flex-grow: 1;
+}
+
+h1 {
+  color: var(--color-light);
+}
+
+h1,
+.h1 {
+  @include fluid-text(44, 25);
+}
+
+h2,
+.h2 {
+  @include fluid-text(35, 25);
+}
+
+h3 {
+  @include fluid-text(20, 14);
+}
+
+a,
+button,
+label,
+input,
+textarea,
+select,
+svg * {
+  transition-duration: var(--transition-duration);
+}
+
+a {
+  color: inherit;
+
+  @include hover {
+    color: var(--color-accent);
+  }
+
+  &[class] {
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  :focus-visible {
+    outline: rem(2) dashed var(--color-light);
+    outline-offset: rem(4);
+    transition-duration: 0s !important;
+  }
+
+  a,
+  button {
+    &[aria-label] {
+      position: relative;
+
+      &::before {
+        @include abs-center;
+        @include square(rem(44));
+      }
+    }
+  }
+}
