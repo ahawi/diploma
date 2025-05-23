@@ -36,7 +36,8 @@
 - PostgreSQL
 
 ### Архитектура:
-![image](https://github.com/user-attachments/assets/17380b4d-e133-4656-a365-61a9bcd0b846)
+![диплом настя drawio](https://github.com/user-attachments/assets/8ba54642-2927-4477-9835-0fde69afe0fa)
+
 
 
 ### Примеры интерфейса:
