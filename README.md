@@ -50,7 +50,4 @@
 
 ![image](https://github.com/user-attachments/assets/01c47fb3-1bed-4bda-9d99-c630cf738faf)
 
-Лента с карточками собак
-
-![image](https://github.com/user-attachments/assets/8d9b30ab-b30b-4d87-b546-0f0e4775f74b)
 
