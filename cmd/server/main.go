@@ -45,9 +45,6 @@ func main() {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 
-	// fs := http.FileServer(http.Dir("public"))
-	// router.Handle("/*", fs)
-
 	router.Route("/pets", func(r chi.Router) {
 		r.Get("/simple", api.GetPetsBatchHandler)
 		r.Get("/rec", api.GetRecommendationPetsBatchHandler)
